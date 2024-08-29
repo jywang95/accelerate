@@ -149,6 +149,9 @@ class DistributedDataParallelKwargs(KwargsHandler):
     ```
     """
 
+    #Notes: add process group here.
+    process_group: None
+
     dim: int = 0
     broadcast_buffers: bool = True
     bucket_cap_mb: int = 25
@@ -157,14 +160,12 @@ class DistributedDataParallelKwargs(KwargsHandler):
     gradient_as_bucket_view: bool = False
     static_graph: bool = False
 
-    #Notes: add process group here.
-    process_group: None
-
     comm_hook: DDPCommunicationHookType = DDPCommunicationHookType.NO
     comm_wrapper: Literal[
         DDPCommunicationHookType.NO, DDPCommunicationHookType.FP16, DDPCommunicationHookType.BF16
     ] = DDPCommunicationHookType.NO
     comm_state_option: dict = field(default_factory=dict)
+
 
     def to_dict(self, ignore_keys=("comm_hook", "comm_wrapper", "comm_state_option")):
         return {k: v for k, v in super().to_dict().items() if k not in ignore_keys}
