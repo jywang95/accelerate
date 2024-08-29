@@ -157,6 +157,9 @@ class DistributedDataParallelKwargs(KwargsHandler):
     gradient_as_bucket_view: bool = False
     static_graph: bool = False
 
+    #Notes: add process group here.
+    process_group = None
+
     comm_hook: DDPCommunicationHookType = DDPCommunicationHookType.NO
     comm_wrapper: Literal[
         DDPCommunicationHookType.NO, DDPCommunicationHookType.FP16, DDPCommunicationHookType.BF16
