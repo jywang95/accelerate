@@ -35,6 +35,8 @@ from .environment import str_to_bool
 from .imports import is_cuda_available, is_mlu_available, is_npu_available, is_xpu_available
 from .versions import compare_versions
 
+from typing import Any
+
 
 class KwargsHandler:
     """
@@ -150,7 +152,7 @@ class DistributedDataParallelKwargs(KwargsHandler):
     """
 
     #Notes: add process group here.
-    process_group: torch.distributed.distributed_c10d.ProcessGroup = None
+    process_group: Any = None
 
     dim: int = 0
     broadcast_buffers: bool = True
