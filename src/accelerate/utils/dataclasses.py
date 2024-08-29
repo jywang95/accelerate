@@ -150,7 +150,7 @@ class DistributedDataParallelKwargs(KwargsHandler):
     """
 
     #Notes: add process group here.
-    process_group: None
+    process_group: torch.distributed.distributed_c10d.ProcessGroup = None
 
     dim: int = 0
     broadcast_buffers: bool = True
