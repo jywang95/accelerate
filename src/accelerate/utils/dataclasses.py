@@ -158,7 +158,7 @@ class DistributedDataParallelKwargs(KwargsHandler):
     static_graph: bool = False
 
     #Notes: add process group here.
-    process_group = None
+    process_group: None
 
     comm_hook: DDPCommunicationHookType = DDPCommunicationHookType.NO
     comm_wrapper: Literal[
