@@ -265,8 +265,9 @@ class Accelerator:
         dynamo_backend: DynamoBackend | str | None = None,
     ):
         
+        # Notes: Pass the group handle here.
         self.process_group = process_group
-        print(type(self.process_group))
+       
 
         self.trackers = []
         if project_config is not None:
@@ -1450,8 +1451,6 @@ class Accelerator:
                     kwargs = self.ddp_handler.to_kwargs() if self.ddp_handler is not None else {}
                     # TODO: Look at enabling native TP training directly with a proper config
 
-                    # Notes: see what are in the kwargs
-                    print(kwargs)
 
 
                     if os.environ.get("ACCELERATE_BYPASS_DEVICE_MAP", "false") != "true":
@@ -1459,10 +1458,11 @@ class Accelerator:
                     else:
                         device_ids, output_device = None, None
 
+                    # Notes: pass the group handle here.
                     model = torch.nn.parallel.DistributedDataParallel(
-                        model, device_ids=device_ids, output_device=output_device, **kwargs
+                        model, device_ids=device_ids, process_group=self.process_group, output_device=output_device, **kwargs
                     )
-                    print("Notes: accelerate wraps the model here.")
+                    # Notes: accelerate wraps the model here.
                     if self.ddp_handler is not None:
                         self.ddp_handler.register_comm_hook(model)
             elif self.distributed_type == DistributedType.FSDP:
