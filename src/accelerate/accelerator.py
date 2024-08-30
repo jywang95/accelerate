@@ -1457,11 +1457,14 @@ class Accelerator:
                         device_ids, output_device = [self.local_process_index], self.local_process_index
                     else:
                         device_ids, output_device = None, None
-
+                    print("device_ids:", device_ids)
+                    print("output_device:", output_device)
                     # Notes: pass the group handle here.
                     model = torch.nn.parallel.DistributedDataParallel(
                         model, device_ids=device_ids, process_group=self.process_group, output_device=output_device, **kwargs
                     )
+
+
                     # Notes: accelerate wraps the model here.
                     if self.ddp_handler is not None:
                         self.ddp_handler.register_comm_hook(model)
