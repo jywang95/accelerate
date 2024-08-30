@@ -242,6 +242,7 @@ class Accelerator:
 
     def __init__(
         self,
+        process_group,
         device_placement: bool = True,
         split_batches: bool = _split_batches,
         mixed_precision: PrecisionType | str | None = None,
@@ -263,6 +264,10 @@ class Accelerator:
         kwargs_handlers: list[KwargsHandler] | None = None,
         dynamo_backend: DynamoBackend | str | None = None,
     ):
+        
+        self.process_group = process_group
+        print(type(self.process_group))
+
         self.trackers = []
         if project_config is not None:
             self.project_configuration = project_config
@@ -348,7 +353,7 @@ class Accelerator:
                 assert isinstance(
                     handler, KwargsHandler
                 ), f"Unsupported kwargs handler passed: {handler}, must be one that inherits `accelerate.utils.KwargsHandler`."
-                if isinstance(handler, DistributedDataParallelKwargs):
+                if isinstance(handler, ddp_handler):
                     if self.ddp_handler is not None:
                         raise ValueError("You can only pass one `DistributedDataParallelKwargs` in `kwargs_handler`.")
                     else:
